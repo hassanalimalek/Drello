@@ -1,0 +1,23 @@
+// Header Styles
+
+.header {
+  text-align: center;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+.appTitle {
+  margin: 0.2rem;
+  font-weight: 400;
+  color: #fff;
+}
+
+.appIcon {
+  margin-top: 0.4rem;
+  font-size: 1.5rem;
+  top: 0;
+  padding: 0;
+  transition: all 1s;
+  right: 0;
+}

@@ -1,0 +1,29 @@
+// SubHeader
+
+.subheader_wrapper {
+  display: flex;
+  margin: 1rem 1rem;
+  justify-content: space-between;
+  color: #fff;
+}
+.title {
+  background: hsla(0, 0%, 100%, 0.24);
+  padding: 0.25rem;
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+.menuBtn {
+  border: none;
+  font-size: 1.25rem;
+  padding: 0.25rem;
+  background-color: hsla(0, 0%, 100%, 0.24);
+  color: white;
+  transition: all 1s;
+  letter-spacing: 0.5px;
+  font-weight: 400;
+  cursor: pointer;
+}
+.menuBtn:hover {
+  background-color: #999;
+}

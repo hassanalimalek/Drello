@@ -1,23 +1,29 @@
-import logo from './logo.svg';
 import './App.css';
+import Header from './components/header'
+import Subheader from './components/subheader';
+import Board from './components/board';
+import SideBar from './components/sideBar';
+
+import { useState } from 'react'
 
 function App() {
+
+  let [sideBarState,setSideBarState] = useState("hide");
+
+  let showSideBar = ()=>{
+    setSideBarState("show")
+  }
+  let hideSideBar = ()=>{
+    setSideBarState("hide");
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div >
+      <Header/>
+      <Subheader showSideBar = {showSideBar} />
+      <Board/>
+      <SideBar sideBarState={sideBarState} hideSideBar={hideSideBar} />
     </div>
   );
 }

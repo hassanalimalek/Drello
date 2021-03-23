@@ -1,0 +1,118 @@
+// Task List
+.taskList {
+  min-width: 272px;
+  min-height: 25px;
+  background-color: #ebecf0;
+  margin-right: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 5px;
+}
+.taskType {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+}
+
+.droppableSection {
+  min-height: 30px;
+}
+
+.addNewCardBtn {
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  display: block;
+  width: 100%;
+  text-align: left;
+  color: #5e6c84;
+  font-weight: 400;
+  font-size: 1rem;
+}
+.addNewCardBtn:hover {
+  background-color: #dadbe2;
+}
+
+.addCardBtn,
+.saveCardBtn {
+  background-color: #5aac44;
+  color: #fff;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: all 1s;
+  cursor: pointer;
+}
+.addCardBtn:hover,
+.saveCardBtn:hover {
+  background-color: #61bd4f;
+  color: #fff;
+}
+.cardTextArea {
+  width: 100%;
+  // border: none;
+  margin-bottom: 0.5rem;
+  resize: vertical;
+  max-height: 160px;
+  min-height: 50px;
+  font-size: 1rem;
+  padding: 0.3rem;
+}
+
+.cardTextArea::placeholder {
+  color: #111;
+}
+.hideAddCardBtn {
+  padding: 0.5rem;
+  font-size: 1rem;
+  color: #666;
+  border: 0;
+  cursor: pointer;
+  background: transparent;
+}
+.hideAddCardBtn:hover {
+  color: #111;
+}
+.taskWrapper {
+  display: flex;
+  background-color: #fff;
+  margin-bottom: 8px;
+}
+.task {
+  background-color: #fff;
+  display: flex;
+  overflow: scroll;
+  justify-content: space-between;
+  border-radius: 3px;
+  font-weight: 400;
+  font-size: 1rem;
+  padding: 0.5rem;
+  white-space: pre-line;
+  width: 250px;
+}
+
+.taskEditBtn {
+  visibility: hidden;
+  align-self: center;
+  margin-right: 0.1rem;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  border: none;
+  background: transparent;
+  transition: all 0.2s;
+  cursor: pointer;
+  align-self: center;
+}
+
+.taskWrapper:hover {
+  .taskEditBtn {
+    visibility: visible;
+    background-color: rgb(230, 228, 228);
+  }
+}
+
+.inputCardShow {
+  display: block;
+}
+.inputCardHide {
+  display: none;
+}

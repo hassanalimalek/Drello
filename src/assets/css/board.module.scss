@@ -1,0 +1,12 @@
+// Task Board
+
+.board {
+  // border: 1px solid red;
+  width: 100%;
+  margin: 2rem 1rem;
+  overflow: scroll;
+}
+.board_wrapper {
+  display: flex;
+  align-items: flex-start;
+}
