@@ -31,12 +31,15 @@ function Index() {
             interval = {16000}
             onClose={() => 
             { localStorage.setItem('modalState',JSON.stringify('true'));
-            setHandleOpen({ open: false })}}
-            onStart={() => setHandleOpen({ open: false })}
+             setHandleOpen({ open: false })}}
+            onStart={() => {
+                localStorage.setItem('modalState',JSON.stringify('true'));
+                setHandleOpen({ open: false })}
+            }
             autoplay={true}
             mobile={isMobile}
             style={{ position: "absolute" }}
-        >
+         >
             <Slide
             media={
                 <img alt="intoImg" className="stylesImg" src={drello1} />
@@ -74,9 +77,9 @@ function Index() {
              <AutoRotatingCarouselModal
               autoplay = {true}
               interval = {500}
-                isMobile={matches}
-                handleOpen={handleOpen}
-                setHandleOpen={setHandleOpen}
+              isMobile={matches}
+              handleOpen={handleOpen}
+              setHandleOpen={setHandleOpen}
             />
             
         </div>
