@@ -28,7 +28,7 @@ function Index() {
         <AutoRotatingCarousel
             label="Get started"
             open={handleOpen.open}
-            interval = {15000}
+            interval = {16000}
             onClose={() => 
             { localStorage.setItem('modalState',JSON.stringify('true'));
             setHandleOpen({ open: false })}}
