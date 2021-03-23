@@ -1,0 +1,8 @@
+/* App */
+.loaderContainer {
+  position: fixed;
+  padding: 1rem;
+  border-radius: 10px;
+  top: 40vh;
+  left: 50vw;
+}
