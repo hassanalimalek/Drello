@@ -3,6 +3,7 @@ import cx from 'classnames'
 import styles from '../../assets/css/sidebar.module.scss'
 import photosImg from '../../assets/img/photos.jpg'
 import colorsImg from '../../assets/img/colors.jpg'
+import errorImg from '../../assets/img/errorImg.png'
 
 
 import {SketchPicker} from 'react-color';
@@ -28,6 +29,7 @@ function Index(props) {
     let [images,setImages] = useState('');
     let [bgColor,setBgColor] = useState('');
     let [bgImg,setBgImg] = useState('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&regular=format&fit=crop&w=1500&q=80');
+    let [errImgState,setErrImgState] = useState('');
     let [imgInputTxt,setImgInputTxt] = useState('');
 
     // Getting saved background State
@@ -57,15 +59,23 @@ function Index(props) {
         if(!searchQuery){
             searchQuery = "nature landscape"
         }
-        let result = await unsplash.search.getPhotos({
+        unsplash.search.getPhotos({
             query: searchQuery,
             perPage: 14,
             page:1,
             orientation: 'landscape'
+          }).then((result)=>{
+            console.log(result.response)
+            setImages(result.response.results);
+            setLoading(false);
+            setErrImgState(false);
+          }).catch((err)=>{
+            setErrImgState(true);
+            setLoading(false)
           })
+      
        
-        setImages(result.response.results);
-        setLoading(false);
+        
     }
 
     // Handle Background Change
@@ -83,7 +93,15 @@ function Index(props) {
 
     // Images Jsx
     let renderImages = ()=>{
-        if(images){
+        if(errImgState){
+            return (
+                <div className={styles.errImgWrapper}>
+                     <img className={styles.errImg} src={errorImg} ></img>
+                </div>
+               
+            )
+        }
+        else if(images){
             return images.map(image =>{
                 return (
                     <div key={image.id} className={styles.board_boarder}>

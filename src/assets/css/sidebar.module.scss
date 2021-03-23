@@ -34,6 +34,20 @@
   background-color: rgb(204, 202, 202);
   color: #111;
 }
+.errImgWrapper {
+  margin: auto;
+  display: block;
+  position: relative;
+  background-color: #111;
+}
+.errImg {
+  width: 60%;
+  position: absolute;
+  right: 50;
+  transform: translate(25%, 25%);
+  // display: block;
+  margin: auto;
+}
 
 .showSideBar {
   visibility: visible;

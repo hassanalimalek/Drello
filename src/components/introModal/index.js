@@ -42,16 +42,16 @@ function Index() {
          >
             <Slide
             media={
-                <img alt="intoImg" className="stylesImg" src={drello1} />
+                <img alt="intoImg0" className="stylesImg" src={drello1} />
             }
-            mediaBackgroundStyle={{ backgroundColor: indigo[500] }}
+            mediaBackgroundStyle={{ backgroundColor: indigo[600] }}
             style={{ backgroundColor: indigo[900] }}
             title="Welcome to Drello"
             subtitle="Your Go to app for managing your tasks"
             />
             <Slide
             media={
-                <img alt="intoImg" className="stylesImg" src={drello2} />
+                <img alt="introImg1" className="stylesImg" src={drello2} />
             }
             mediaBackgroundStyle={{ backgroundColor: blue[600] }}
             style={{ backgroundColor: blue[900] }}
@@ -60,7 +60,7 @@ function Index() {
             />
             <Slide
             media={
-                <img alt="intoImg" className="stylesImg" src={drello3} />
+                <img alt="introImg2" className="stylesImg" src={drello3} />
             }
             mediaBackgroundStyle={{ backgroundColor: blueGrey[600] }}
             style={{ backgroundColor: blueGrey[800] }}
