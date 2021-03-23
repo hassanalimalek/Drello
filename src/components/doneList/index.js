@@ -22,7 +22,7 @@ function Index(props) {
         if(editTaskId){
             setEditTaskValue(props.dataState.tasks[editTaskId].content);
         }
-    },[editTaskId])
+    },[editTaskId])// eslint-disable-line
 
     // Cards Hide and Show.
     let showAddCard = ()=>{

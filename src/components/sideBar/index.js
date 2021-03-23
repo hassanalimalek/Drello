@@ -18,7 +18,7 @@ function Index(props) {
 
     // Loader State
     let [loading, setLoading] = useState(false);
-    let [color, setColor] = useState("#ffffff");
+    let color = "#ffffff"
 
     let [buttonsState,setButtonsState] = useState(true);
     let [photoState,setPhotoState] = useState(false);
@@ -126,12 +126,12 @@ function Index(props) {
             <div className={cx(styles.buttonsContainer,buttonsState ? styles.buttonsContainerShow: styles.buttonsContainerHide)}>  
                 <div className={styles.buttonWrapper}
                 onClick={showPhotos}>
-                     <img className={styles.photosImg} src={photosImg}></img>
+                     <img alt="randImg" className={styles.photosImg} src={photosImg}></img>
                      <h3>Photos</h3>
                 </div>
                 <div className={styles.buttonWrapper}
                 onClick={showColorPicker}>
-                    <img className={styles.colorsImg} src={colorsImg}></img>
+                    <img alt="randImg 1" className={styles.colorsImg} src={colorsImg}></img>
                     <h3>Colors</h3>
                 </div>
             </div>
