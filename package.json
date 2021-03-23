@@ -16,6 +16,7 @@
     "react-scripts": "4.0.3",
     "react-spinners": "^0.10.6",
     "react-uuid": "^1.0.2",
+    "sass": "^1.32.8",
     "unsplash-js": "^7.0.8",
     "web-vitals": "^1.1.1"
   },
