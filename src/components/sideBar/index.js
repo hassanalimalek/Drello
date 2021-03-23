@@ -96,7 +96,7 @@ function Index(props) {
         if(errImgState){
             return (
                 <div className={styles.errImgWrapper}>
-                     <img className={styles.errImg} src={errorImg} ></img>
+                     <img alt="errorImg" className={styles.errImg} src={errorImg} ></img>
                 </div>
                
             )
