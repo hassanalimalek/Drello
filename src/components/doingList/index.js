@@ -113,7 +113,7 @@ function Index(props) {
             <div className={editCardState ? styles.inputCardShow : styles.inputCardHide}>
                 <textarea className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value)}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button></span>
-            </div>
+            </div>npm install react-beautiful-dnd.
             <button className={cx(inputCardState ? styles.inputCardHide : styles.inputCardShow,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
         </div>
     )
