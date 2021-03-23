@@ -3,12 +3,16 @@ import Header from './components/header'
 import Subheader from './components/subheader';
 import Board from './components/board';
 import SideBar from './components/sideBar';
+import IntroModal from './components/introModal'
+
+
 
 import { useState } from 'react'
 
 function App() {
 
   let [sideBarState,setSideBarState] = useState("hide");
+
 
   let showSideBar = ()=>{
     setSideBarState("show")
@@ -17,9 +21,13 @@ function App() {
     setSideBarState("hide");
   }
 
+ 
+  
+
 
   return (
     <div >
+      <IntroModal/>
       <Header/>
       <Subheader showSideBar = {showSideBar} />
       <Board/>

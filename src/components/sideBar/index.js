@@ -27,7 +27,7 @@ function Index(props) {
     // Background State
     let [images,setImages] = useState('');
     let [bgColor,setBgColor] = useState('');
-    let [bgImg,setBgImg] = useState('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1500&q=80');
+    let [bgImg,setBgImg] = useState('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&regular=format&fit=crop&w=1500&q=80');
     let [imgInputTxt,setImgInputTxt] = useState('');
 
     // Getting saved background State
@@ -40,7 +40,7 @@ function Index(props) {
             setBgImg('');
         }
         else{
-            setBgImg('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1500&q=80');
+            setBgImg('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&regular=format&fit=crop&w=1500&q=80');
         }
         if(bgUrl){
             setBgImg(bgUrl)
