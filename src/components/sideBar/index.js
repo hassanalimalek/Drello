@@ -94,12 +94,7 @@ function Index(props) {
     // Images Jsx
     let renderImages = ()=>{
         if(errImgState){
-            return (
-                <div className={styles.errImgWrapper}>
-                     <img alt="errorImg" className={styles.errImg} src={errorImg} ></img>
-                </div>
-               
-            )
+            return ;
         }
         else if(images){
             return images.map(image =>{
@@ -138,6 +133,10 @@ function Index(props) {
         <div  className={cx(styles.sideBar,props.sideBarState==='hide'? styles.hideSideBar:styles.showSideBar )}>
           <div className={styles.sideBarWrapper}>
             <style>{`body {background: url(${bgImg}) ${bgColor} no-repeat center/cover fixed !important;}`}</style>
+            {/* Error Image */}
+            <div className={cx(styles.errImgWrapper,errImgState ? styles.showErrImg: styles.hideErrImg)}>
+                     <img alt="errorImg" className={styles.errImg} src={errorImg} ></img>
+            </div>
             <h4 className={styles.sideBarTitle}>Change Background </h4>
             <span  onClick={hideSideBar}><FaTimesCircle className={styles.hideSideBarBtn}/></span>
             {/* Initial Option Buttons */}

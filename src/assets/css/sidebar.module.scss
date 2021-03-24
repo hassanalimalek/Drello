@@ -42,8 +42,14 @@
 .errImg {
   width: 30%;
   position: absolute;
-  top: 20vh;
+  top: 40vh;
   right: 40%;
+}
+.showErrImg {
+  display: block;
+}
+.hideErrImg {
+  display: none;
 }
 
 .showSideBar {
