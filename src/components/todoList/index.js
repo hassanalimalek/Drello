@@ -24,6 +24,7 @@ function Index(props) {
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
 
+
     useEffect(() =>{
         let id = editTaskId.id;
         if(id){
@@ -104,7 +105,6 @@ function Index(props) {
                             <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={styles.taskEditBtn}>
                                   <BiPencil />
                             </button>
-                               
                      </div>
                 )}
                 </Draggable>
