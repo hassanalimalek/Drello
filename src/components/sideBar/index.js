@@ -155,7 +155,7 @@ function Index(props) {
             <div>
             {/* Images Section */}
             <div className={cx(styles.imageSectionContainer,photoState ? styles.photoContainerShow: styles.photoContainerHide)}>
-                    <BsArrowLeft className={styles.backArrow} onClick={()=>{setButtonsState(true);setPhotoState(false)}}/>
+                    <BsArrowLeft className={styles.backArrow} onClick={()=>{setButtonsState(true);setPhotoState(false); setErrImgState(false)}}/>
                     <h4 className={styles.sideBarSubTitle}>Photos by Unsplash</h4>
                     <div></div>           
                 <div className={styles.imgInputWrapper}>     

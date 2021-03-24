@@ -41,8 +41,9 @@
 .errImg {
   width: 30%;
   position: absolute;
-  top: 40vh;
-  right: 40%;
+  top: 50vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 .showErrImg {
   display: block;
