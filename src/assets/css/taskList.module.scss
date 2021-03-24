@@ -47,40 +47,50 @@
   background-color: #61bd4f;
   color: #fff;
 }
+
+// Edit Card
+
 .cardTextArea {
   width: 100%;
   // border: none;
   margin-bottom: 0.5rem;
   resize: vertical;
   max-height: 160px;
-  min-height: 50px;
+  min-height: 80px;
   font-size: 1rem;
   padding: 0.3rem;
+}
+.opacitylow {
+  opacity: 0.2;
+}
+.opacityfull {
+  opacity: 1;
 }
 
 .cardTextArea::placeholder {
   color: #111;
 }
-.hideAddCardBtn {
+.hideCardBtn {
   padding: 0.5rem;
-  font-size: 1rem;
-  color: #666;
+  font-size: 1.2rem;
+  color: #888;
   border: 0;
   cursor: pointer;
   background: transparent;
 }
-.hideAddCardBtn:hover {
+.hideCardBtn:hover {
   color: #111;
 }
+
 .taskWrapper {
   display: flex;
   background-color: #fff;
   margin-bottom: 8px;
 }
-.task {
+.task,
+.taskEdit {
   background-color: #fff;
   display: flex;
-  overflow: scroll;
   justify-content: space-between;
   border-radius: 3px;
   font-weight: 400;
@@ -89,13 +99,18 @@
   white-space: pre-line;
   width: 250px;
 }
+.taskEdit {
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
 
 .taskEditBtn {
   visibility: hidden;
   align-self: center;
-  margin-right: 0.1rem;
+  padding: 0;
+  margin: 0.1rem;
   border-radius: 50%;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
   border: none;
   background: transparent;
   transition: all 0.2s;

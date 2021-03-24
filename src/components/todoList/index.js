@@ -5,28 +5,37 @@ import cx from 'classnames';
 import {BiPencil} from 'react-icons/bi';
 import styles from '../../assets/css/taskList.module.scss'
 import {useEffect} from 'react'
+import { useRef }from 'react'
 import {Droppable,Draggable} from 'react-beautiful-dnd'
 
 import Notifications, {notify} from 'react-notify-toast';
 
 function Index(props) {
+
+    const myRef = useRef(null)
+
+   const executeScroll = () => myRef.current.scrollIntoView()    
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
+    let [addCardBtnState,setAddCardBtnState] = useState(true);
   
     let [taskValue,setTaskValue] = useState("");
-    let [editTaskId,setEditTaskId] = useState("");
+    let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
 
     useEffect(() =>{
-        if(editTaskId){
-            setEditTaskValue(props.dataState.tasks[editTaskId].content);
+        let id = editTaskId.id;
+        if(id){
+            setEditTaskValue(props.dataState.tasks[id].content);
+            showEditCard();
         }
     },[editTaskId])// eslint-disable-line
-   
+
 
     // Cards Hide and Show.
     let showAddCard = ()=>{
+        setAddCardBtnState(false);
         setInputCardState(true);
         hideEditCard();
     }
@@ -34,7 +43,6 @@ function Index(props) {
         setInputCardState(false);
     }
     let showEditCard = ()=>{
-        hideAddCard();
         setEditCardState(true);
     }
     let hideEditCard = ()=>{
@@ -50,6 +58,7 @@ function Index(props) {
             hideAddCard();
             hideEditCard();
             setTaskValue("");
+            setAddCardBtnState(true);
         }
         else{
             let myColor = { background: '#D41A1A', text: "#FFFFFF" };
@@ -59,22 +68,27 @@ function Index(props) {
     }
 
     // Executed upon edit btn click.
-    let editTask= (e)=>{
-        setEditTaskId(e.target.id);
-        showEditCard();
+    let editTask= (taskId)=>{
+        setAddCardBtnState(false);
+        hideAddCard();
+        hideEditCard();
+        editTaskId.id = taskId;
+        setEditTaskId({...editTaskId});
+        executeScroll();
     }
   
     // Submitting user task changes.
     let submitChanges = (e)=>{
-        props.updateTask(editTaskId,editTaskValue,"todo");
+        props.updateTask(editTaskId.id,editTaskValue,"todo");
         hideEditCard();
+        setAddCardBtnState(true);
     }
+
 
     // Create Tasks JSX
     let renderTasks = ()=>{
-        
+
         return (props.dataState.columns['todo'].taskIds).map((taskId,index)=>{
-            
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
                  {(provided)=>(
@@ -87,11 +101,13 @@ function Index(props) {
                             <p style ={{whiteSpace: "pre-line"}}  className={styles.task} index={index} >
                                 {props.dataState.tasks[taskId].content}
                             </p>
-                            <BiPencil id={taskId} onClick={editTask} className={styles.taskEditBtn}/>
-                       </div>
+                            <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={styles.taskEditBtn}>
+                                  <BiPencil />
+                            </button>
+                               
+                     </div>
                 )}
-                  </Draggable>
-                
+                </Draggable>
              )
         })
     }
@@ -100,11 +116,11 @@ function Index(props) {
    
     return (
         <div className={styles.taskList}>
-            <h3 className={styles.taskType}>To Do</h3>
+            <h3 className={styles.taskType}>Todo</h3>
             <Notifications />
             <Droppable droppableId="todo">
                 {(provided)=>(
-                    <div className={styles.droppableSection}  
+                    <div className={cx(styles.droppableSection,editCardState ? styles.opacitylow : styles.opacityfull)}  
                         ref={provided.innerRef}
                         {...provided.droppableProps}>
                           {renderTasks()}
@@ -116,15 +132,19 @@ function Index(props) {
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
                 <textarea placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
-                <span><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideAddCardBtn} onClick={hideAddCard}>X</button></span>
+                <span ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></span>
             </div>
             {/* Edit Card */}
-            <div className={editCardState ? styles.inputCardShow : styles.inputCardHide}>
-                <textarea className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value)}}/>
-                <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button></span>
+            <div className={cx(editCardState ? styles.inputCardShow : styles.inputCardHide,styles.editCardContainer)}>
+                 <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
+                               {editTaskValue}
+                 </p>
+                <textarea className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
-            <button className={cx(inputCardState ? styles.inputCardHide : styles.inputCardShow,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <button className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <div ref={myRef}></div> 
         </div>
     )
 }
