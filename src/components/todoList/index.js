@@ -13,7 +13,6 @@ import Notifications, {notify} from 'react-notify-toast';
 function Index(props) {
 
     const myRef = useRef(null)
-    const textAreaRef = useRef(null)
 
    const executeScroll = () => myRef.current.scrollIntoView()    
     
