@@ -10,7 +10,6 @@ import { AutoRotatingCarousel, Slide } from "material-auto-rotating-carousel";
 
 function Index() {
     const [handleOpen, setHandleOpen] = useState({ open: true });
-
     
     useEffect(() =>{
         let modalState = localStorage.getItem('modalState');

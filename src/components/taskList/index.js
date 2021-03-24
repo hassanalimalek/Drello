@@ -1,39 +1,28 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState,useRef } from 'react'
 import uuid from 'react-uuid'
 import cx from 'classnames';
 import {BiPencil} from 'react-icons/bi';
 import styles from '../../assets/css/taskList.module.scss'
-import {useEffect} from 'react'
-import { useRef }from 'react'
+// React DND
 import {Droppable,Draggable} from 'react-beautiful-dnd'
-
+// React Notify
 import Notifications, {notify} from 'react-notify-toast';
 
 function Index(props) {
 
     const myRef = useRef(null)
-    
     const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })
-    
+    // Task Cards States
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
     let [addCardBtnState,setAddCardBtnState] = useState(true);
-  
+    // Task Values States
     let [taskValue,setTaskValue] = useState("");
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
     let [editTaskCardValue,setEditTaskCardValue] = useState("");
 
-
-    useEffect(() =>{
-        let id = editTaskId.id;
-        executeScroll();
-        if(id){
-            setEditTaskValue(props.dataState.tasks[id].content);
-            showEditCard();
-        }
-    },[editTaskId])// eslint-disable-line
 
 
     // Cards Hide and Show.
@@ -62,11 +51,11 @@ function Index(props) {
     }
     
     
-    // Adding Task to the main board.js state.
+    // Adding Task to the main board.js State.
     let addTask = ()=>{
-        let key = uuid();
         if(taskValue.length){
-            props.addTask(key,taskValue,'todo')
+            let key = uuid();
+            props.addTask(key,taskValue,props.type)
             hideAddCard();
             hideEditCard();
             setTaskValue("");
@@ -82,16 +71,17 @@ function Index(props) {
     let editTask= (taskId)=>{
         executeScroll();
         hideAddCard();
-        hideEditCard();
         editTaskId.id = taskId;
         editTaskCardValue = props.dataState.tasks[taskId].content;
         setEditTaskCardValue(editTaskCardValue)
         setEditTaskId({...editTaskId});
+        setEditTaskValue(props.dataState.tasks[taskId].content);
+        showEditCard();
     }
   
     // Submitting user task changes.
     let submitChanges = (e)=>{
-        props.updateTask(editTaskId.id,editTaskValue,"todo");
+        props.updateTask(editTaskId.id,editTaskValue,props.type);
         hideEditCard();
         setAddCardBtnState(true);
     }
@@ -99,7 +89,7 @@ function Index(props) {
 
     // Create Tasks JSX
     let renderTasks = ()=>{
-        return (props.dataState.columns['todo'].taskIds).map((taskId,index)=>{
+        return (props.dataState.columns[props.type].taskIds).map((taskId,index)=>{
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
                  {(provided)=>(
@@ -123,12 +113,11 @@ function Index(props) {
     }
  
     
-   
     return (
         <div className={styles.taskList}>
-            <h3 className={styles.taskType}>Todo</h3>
+            <h3 className={styles.taskType}>{props.type.charAt(0).toUpperCase() + props.type.slice(1) }</h3>
             <Notifications />
-            <Droppable droppableId="todo">
+            <Droppable droppableId={props.type}>
                 {(provided)=>(
                     <div className={cx(styles.droppableSection,editCardState ? styles.opacitylow : styles.opacityfull)}  
                         ref={provided.innerRef}

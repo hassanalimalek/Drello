@@ -15,7 +15,8 @@ import { useState } from 'react'
 function App() {
 
   let [sideBarState,setSideBarState] = useState("hide");
-  
+
+  // Loader
   let [loading, setLoading] = useState(true);
   let color = ("#111");
   const override = css`
@@ -23,6 +24,9 @@ function App() {
   color:black;
   margin: 0 auto;
 `;
+  setTimeout(()=>{
+    setLoading(false);
+  },3000)
 
 
   let showSideBar = ()=>{
@@ -31,12 +35,8 @@ function App() {
   let hideSideBar = ()=>{
     setSideBarState("hide");
   }
-  setTimeout(()=>{
-    setLoading(false);
-  },3000)
 
  
-  
   if(loading){
     return (
       <div className="loaderContainer">
@@ -49,7 +49,7 @@ function App() {
       <div >
         <IntroModal/>
         <Header/>
-        <Subheader showSideBar = {showSideBar} />
+        <Subheader showSideBar = {showSideBar}/>
         <Board/>
         <SideBar sideBarState={sideBarState} hideSideBar={hideSideBar} />
       </div>

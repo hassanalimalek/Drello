@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react' 
 import cx from 'classnames'
 import styles from '../../assets/css/sidebar.module.scss'
 import photosImg from '../../assets/img/photos.jpg'
@@ -8,8 +8,6 @@ import errorImg from '../../assets/img/errorImg.png'
 
 import {SketchPicker} from 'react-color';
 import { createApi } from 'unsplash-js';
-import {useState,useEffect} from 'react'
-
 import {BsArrowLeft,BsSearch} from 'react-icons/bs'
 import {FaTimesCircle} from 'react-icons/fa'
 import ClipLoader from "react-spinners/ClipLoader";
@@ -20,7 +18,7 @@ function Index(props) {
     // Loader State
     let [loading, setLoading] = useState(false);
     let color = "#ffffff"
-
+    // Elements State
     let [buttonsState,setButtonsState] = useState(true);
     let [photoState,setPhotoState] = useState(false);
     let [colorPickerState,setColorPickerState] = useState(false);
@@ -28,7 +26,7 @@ function Index(props) {
     // Background State
     let [images,setImages] = useState('');
     let [bgColor,setBgColor] = useState('');
-    let [bgImg,setBgImg] = useState('https://images.unsplash.com/photo-1460355976672-71c3f0a4bdac?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&regular=format&fit=crop&w=1500&q=80');
+    let [bgImg,setBgImg] = useState('');
     let [errImgState,setErrImgState] = useState('');
     let [imgInputTxt,setImgInputTxt] = useState('');
 
@@ -50,7 +48,6 @@ function Index(props) {
        
     },[])
 
-    
    
     // Fetch Images From Unsplash
     const unsplash = createApi({ accessKey: "HWuhCHW11ItQv6h4O66Aw0EBGvimFjejWweXr3F4A2E" });
@@ -108,7 +105,7 @@ function Index(props) {
         }
     }
 
-    // Showing JSX elements 
+    // Showing and Hiding SideBar Internal Elements
     let showPhotos =()=>{
         setImgInputTxt('');
         setPhotoState(true);
@@ -120,7 +117,6 @@ function Index(props) {
         setPhotoState(false);
         setColorPickerState(true);
     }
-
     let hideSideBar = ()=>{
         setColorPickerState(false);
         setImgInputTxt('');
@@ -133,44 +129,46 @@ function Index(props) {
         <div  className={cx(styles.sideBar,props.sideBarState==='hide'? styles.hideSideBar:styles.showSideBar )}>
           <div className={styles.sideBarWrapper}>
             <style>{`body {background: url(${bgImg}) ${bgColor} no-repeat center/cover fixed !important;}`}</style>
-            {/* Error Image */}
+                {/* Error Image */}
             <div className={cx(styles.errImgWrapper,errImgState ? styles.showErrImg: styles.hideErrImg)}>
-                     <img alt="errorImg" className={styles.errImg} src={errorImg} ></img>
+                <img alt="errorImg" className={styles.errImg} src={errorImg} ></img>
             </div>
             <h4 className={styles.sideBarTitle}>Change Background </h4>
             <span  onClick={hideSideBar}><FaTimesCircle className={styles.hideSideBarBtn}/></span>
-            {/* Initial Option Buttons */}
+                {/* Initial Option Buttons */}
             <div className={cx(styles.buttonsContainer,buttonsState ? styles.buttonsContainerShow: styles.buttonsContainerHide)}>  
                 <div className={styles.buttonWrapper}
-                onClick={showPhotos}>
+                     onClick={showPhotos}>
                      <img alt="randImg" className={styles.photosImg} src={photosImg}></img>
                      <h3>Photos</h3>
                 </div>
                 <div className={styles.buttonWrapper}
-                onClick={showColorPicker}>
+                     onClick={showColorPicker}>
                     <img alt="randImg 1" className={styles.colorsImg} src={colorsImg}></img>
                     <h3>Colors</h3>
                 </div>
             </div>
             <div>
-            {/* Images Section */}
-            <div className={cx(styles.imageSectionContainer,photoState ? styles.photoContainerShow: styles.photoContainerHide)}>
+                {/* Images Section */}
+                <div className={cx(styles.imageSectionContainer,photoState ? styles.photoContainerShow: styles.photoContainerHide)}>
                     <BsArrowLeft className={styles.backArrow} onClick={()=>{setButtonsState(true);setPhotoState(false); setErrImgState(false)}}/>
                     <h4 className={styles.sideBarSubTitle}>Photos by Unsplash</h4>
                     <div></div>           
-                <div className={styles.imgInputWrapper}>     
-                    <input placeholder="Search..." className={styles.imgInput} value = {imgInputTxt} type="text" onChange={(e)=>{setImgInputTxt(e.target.value);fetchImages(imgInputTxt)}}/><BsSearch onClick={()=>{fetchImages(imgInputTxt)}} className={styles.searchIcon}/>
+                    <div className={styles.imgInputWrapper}>     
+                        <input placeholder="Search..." className={styles.imgInput} value = {imgInputTxt} type="text" onChange={(e)=>{setImgInputTxt(e.target.value);fetchImages(imgInputTxt)}}/>
+                        <BsSearch onClick={()=>{fetchImages(imgInputTxt)}} className={styles.searchIcon}/>
+                    </div>
+                    <div className={styles.imageGalleryWrapper}>
+                        {renderImages()}
+                    </div>
                 </div>
-                <div className={styles.imageGalleryWrapper}>
-                  {renderImages()}
-                </div>
-            </div>
-            {/* Color Picker */}
-            <div className={cx(styles.colorPalette,colorPickerState ? styles.colorPickerShow: styles.colorPickerHide)}> 
-                <BsArrowLeft className={styles.backArrow} onClick={()=>{setButtonsState(true);setColorPickerState(false)}}/>
-                <SketchPicker width={220} className={styles.colorPaletteActual} color={bgColor} onChangeComplete={ onBgColorChange }/>
+                {/* Color Picker */}
+                <div className={cx(styles.colorPalette,colorPickerState ? styles.colorPickerShow: styles.colorPickerHide)}> 
+                    <BsArrowLeft className={styles.backArrow} onClick={()=>{setButtonsState(true);setColorPickerState(false)}}/>
+                    <SketchPicker width={220} className={styles.colorPaletteActual} color={bgColor} onChangeComplete={ onBgColorChange }/>
+                </div>  
             </div>  
-            </div>  
+            {/* Loader */}
             <div className={styles.loaderContainer}>
                 <ClipLoader css={styles.cliploader} color={color} loading={loading}  size={50}  />
             </div>  

@@ -1,15 +1,12 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 
-import TodoList from '../todoList';
-import DoingList from '../doingList';
-import DoneList from '../doneList';
-
+import TaskList from '../taskList';
 import styles from '../../assets/css/board.module.scss'
 import initialData from '../intial-data';
-
+// React DnD
 import { DragDropContext } from 'react-beautiful-dnd';
 
-import { useState,useEffect } from 'react'
+
 
 function Index() {
 
@@ -124,9 +121,9 @@ function Index() {
         <div className={styles.board}>
             <DragDropContext onDragEnd ={onDragEnd} >
                 <div className={styles.board_wrapper}>
-                        <TodoList  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
-                        <DoingList  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
-                        <DoneList  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
+                        <TaskList type="todo"  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
+                        <TaskList  type="doing"  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
+                        <TaskList  type="done"  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
                 </div>
             </DragDropContext>
          
