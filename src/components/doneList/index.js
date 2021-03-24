@@ -13,8 +13,8 @@ import Notifications, {notify} from 'react-notify-toast';
 function Index(props) {
 
     const myRef = useRef(null)
-
-   const executeScroll = () => myRef.current.scrollIntoView()    
+    
+    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })  
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
@@ -78,6 +78,7 @@ function Index(props) {
 
     // Executed upon edit btn click.
     let editTask= (taskId)=>{
+        executeScroll();
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
@@ -94,7 +95,6 @@ function Index(props) {
 
     // Create Tasks JSX
     let renderTasks = ()=>{
-
         return (props.dataState.columns['done'].taskIds).map((taskId,index)=>{
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >

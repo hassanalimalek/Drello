@@ -13,8 +13,8 @@ import Notifications, {notify} from 'react-notify-toast';
 function Index(props) {
 
     const myRef = useRef(null)
-
-    const executeScroll = () => myRef.current.scrollIntoView()    
+    
+    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
@@ -79,6 +79,7 @@ function Index(props) {
 
     // Executed upon edit btn click.
     let editTask= (taskId)=>{
+        executeScroll();
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
@@ -150,7 +151,7 @@ function Index(props) {
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
-            <button ref={myRef} className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <button  className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
             <div ref={myRef}></div> 
         </div>
     )
