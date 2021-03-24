@@ -14,7 +14,7 @@ function Index(props) {
 
     const myRef = useRef(null)
     
-    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })  
+    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
@@ -23,6 +23,8 @@ function Index(props) {
     let [taskValue,setTaskValue] = useState("");
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
+    let [editTaskCardValue,setEditTaskCardValue] = useState("");
+
 
     useEffect(() =>{
         let id = editTaskId.id;
@@ -82,6 +84,8 @@ function Index(props) {
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
+        editTaskCardValue = props.dataState.tasks[taskId].content;
+        setEditTaskCardValue(editTaskCardValue)
         setEditTaskId({...editTaskId});
     }
   
@@ -95,6 +99,7 @@ function Index(props) {
 
     // Create Tasks JSX
     let renderTasks = ()=>{
+
         return (props.dataState.columns['done'].taskIds).map((taskId,index)=>{
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
@@ -111,7 +116,6 @@ function Index(props) {
                             <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={styles.taskEditBtn}>
                                   <BiPencil />
                             </button>
-                               
                      </div>
                 )}
                 </Draggable>
@@ -138,19 +142,19 @@ function Index(props) {
             
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
-                <textarea ref={input => input && input.focus()} placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
+                <textarea ref={input => input && input.focus()}  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
                 <span ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></span>
             </div>
             {/* Edit Card */}
             <div className={cx(editCardState ? styles.inputCardShow : styles.inputCardHide,styles.editCardContainer)}>
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
-                               {editTaskValue}
+                               {editTaskCardValue}
                  </p>
-                <textarea ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <textarea  ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
-            <button className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <button  className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
             <div ref={myRef}></div> 
         </div>
     )

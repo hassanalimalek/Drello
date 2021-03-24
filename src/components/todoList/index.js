@@ -23,6 +23,7 @@ function Index(props) {
     let [taskValue,setTaskValue] = useState("");
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
+    let [editTaskCardValue,setEditTaskCardValue] = useState("");
 
 
     useEffect(() =>{
@@ -83,6 +84,8 @@ function Index(props) {
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
+        editTaskCardValue = props.dataState.tasks[taskId].content;
+        setEditTaskCardValue(editTaskCardValue)
         setEditTaskId({...editTaskId});
     }
   
@@ -145,7 +148,7 @@ function Index(props) {
             {/* Edit Card */}
             <div className={cx(editCardState ? styles.inputCardShow : styles.inputCardHide,styles.editCardContainer)}>
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
-                               {editTaskValue}
+                               {editTaskCardValue}
                  </p>
                 <textarea  ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>

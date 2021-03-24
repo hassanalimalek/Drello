@@ -14,7 +14,7 @@ function Index(props) {
 
     const myRef = useRef(null)
     
-    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' }) 
+    const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
@@ -23,6 +23,7 @@ function Index(props) {
     let [taskValue,setTaskValue] = useState("");
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
+    let [editTaskCardValue,setEditTaskCardValue] = useState("");
 
 
     useEffect(() =>{
@@ -83,6 +84,8 @@ function Index(props) {
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
+        editTaskCardValue = props.dataState.tasks[taskId].content;
+        setEditTaskCardValue(editTaskCardValue)
         setEditTaskId({...editTaskId});
     }
   
@@ -145,13 +148,13 @@ function Index(props) {
             {/* Edit Card */}
             <div className={cx(editCardState ? styles.inputCardShow : styles.inputCardHide,styles.editCardContainer)}>
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
-                               {editTaskValue}
+                               {editTaskCardValue}
                  </p>
-                <textarea ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <textarea  ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
-            <button className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <button  className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
             <div ref={myRef}></div> 
         </div>
     )
