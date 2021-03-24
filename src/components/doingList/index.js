@@ -24,8 +24,10 @@ function Index(props) {
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
 
+
     useEffect(() =>{
         let id = editTaskId.id;
+        executeScroll();
         if(id){
             setEditTaskValue(props.dataState.tasks[id].content);
             showEditCard();
@@ -35,18 +37,27 @@ function Index(props) {
 
     // Cards Hide and Show.
     let showAddCard = ()=>{
-        setAddCardBtnState(false);
+        hideAddCardBtn();
+        setEditCardState(false);
         setInputCardState(true);
-        hideEditCard();
     }
     let hideAddCard = ()=>{
+        showAddCardBtn();
         setInputCardState(false);
     }
     let showEditCard = ()=>{
+        hideAddCardBtn();
         setEditCardState(true);
     }
     let hideEditCard = ()=>{
         setEditCardState(false);
+        showAddCardBtn();
+    }
+    let showAddCardBtn = ()=>{
+        setAddCardBtnState(true);
+    }
+    let hideAddCardBtn = ()=>{
+        setAddCardBtnState(false);
     }
     
     
@@ -58,7 +69,6 @@ function Index(props) {
             hideAddCard();
             hideEditCard();
             setTaskValue("");
-            setAddCardBtnState(true);
         }
         else{
             let myColor = { background: '#D41A1A', text: "#FFFFFF" };
@@ -69,12 +79,10 @@ function Index(props) {
 
     // Executed upon edit btn click.
     let editTask= (taskId)=>{
-        setAddCardBtnState(false);
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
         setEditTaskId({...editTaskId});
-        executeScroll();
     }
   
     // Submitting user task changes.
@@ -104,7 +112,6 @@ function Index(props) {
                             <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={styles.taskEditBtn}>
                                   <BiPencil />
                             </button>
-                               
                      </div>
                 )}
                 </Draggable>
@@ -131,7 +138,7 @@ function Index(props) {
             
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
-                <textarea ref={input => input && input.focus()} placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
+                <textarea ref={input => input && input.focus()}  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
                 <span ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></span>
             </div>
             {/* Edit Card */}

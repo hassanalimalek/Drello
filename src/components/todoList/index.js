@@ -14,7 +14,7 @@ function Index(props) {
 
     const myRef = useRef(null)
 
-   const executeScroll = () => myRef.current.scrollIntoView()    
+    const executeScroll = () => myRef.current.scrollIntoView()    
     
     let [inputCardState,setInputCardState] = useState(false);
     let [editCardState,setEditCardState] = useState(false);
@@ -27,6 +27,7 @@ function Index(props) {
 
     useEffect(() =>{
         let id = editTaskId.id;
+        executeScroll();
         if(id){
             setEditTaskValue(props.dataState.tasks[id].content);
             showEditCard();
@@ -36,18 +37,27 @@ function Index(props) {
 
     // Cards Hide and Show.
     let showAddCard = ()=>{
-        setAddCardBtnState(false);
+        hideAddCardBtn();
+        setEditCardState(false);
         setInputCardState(true);
-        hideEditCard();
     }
     let hideAddCard = ()=>{
+        showAddCardBtn();
         setInputCardState(false);
     }
     let showEditCard = ()=>{
+        hideAddCardBtn();
         setEditCardState(true);
     }
     let hideEditCard = ()=>{
         setEditCardState(false);
+        showAddCardBtn();
+    }
+    let showAddCardBtn = ()=>{
+        setAddCardBtnState(true);
+    }
+    let hideAddCardBtn = ()=>{
+        setAddCardBtnState(false);
     }
     
     
@@ -59,7 +69,6 @@ function Index(props) {
             hideAddCard();
             hideEditCard();
             setTaskValue("");
-            setAddCardBtnState(true);
         }
         else{
             let myColor = { background: '#D41A1A', text: "#FFFFFF" };
@@ -70,13 +79,10 @@ function Index(props) {
 
     // Executed upon edit btn click.
     let editTask= (taskId)=>{
-        setAddCardBtnState(false);
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
         setEditTaskId({...editTaskId});
-        executeScroll();
-       
     }
   
     // Submitting user task changes.
@@ -140,11 +146,11 @@ function Index(props) {
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
                                {editTaskValue}
                  </p>
-                <textarea ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <textarea  ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
-            <button className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
+            <button ref={myRef} className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>
             <div ref={myRef}></div> 
         </div>
     )

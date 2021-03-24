@@ -26,6 +26,7 @@ function Index(props) {
 
     useEffect(() =>{
         let id = editTaskId.id;
+        executeScroll();
         if(id){
             setEditTaskValue(props.dataState.tasks[id].content);
             showEditCard();
@@ -35,18 +36,27 @@ function Index(props) {
 
     // Cards Hide and Show.
     let showAddCard = ()=>{
-        setAddCardBtnState(false);
+        hideAddCardBtn();
+        setEditCardState(false);
         setInputCardState(true);
-        hideEditCard();
     }
     let hideAddCard = ()=>{
+        showAddCardBtn();
         setInputCardState(false);
     }
     let showEditCard = ()=>{
+        hideAddCardBtn();
         setEditCardState(true);
     }
     let hideEditCard = ()=>{
         setEditCardState(false);
+        showAddCardBtn();
+    }
+    let showAddCardBtn = ()=>{
+        setAddCardBtnState(true);
+    }
+    let hideAddCardBtn = ()=>{
+        setAddCardBtnState(false);
     }
     
     
@@ -58,7 +68,6 @@ function Index(props) {
             hideAddCard();
             hideEditCard();
             setTaskValue("");
-            setAddCardBtnState(true);
         }
         else{
             let myColor = { background: '#D41A1A', text: "#FFFFFF" };
@@ -69,12 +78,10 @@ function Index(props) {
 
     // Executed upon edit btn click.
     let editTask= (taskId)=>{
-        setAddCardBtnState(false);
         hideAddCard();
         hideEditCard();
         editTaskId.id = taskId;
         setEditTaskId({...editTaskId});
-        executeScroll();
     }
   
     // Submitting user task changes.
