@@ -13,6 +13,7 @@ import Notifications, {notify} from 'react-notify-toast';
 function Index(props) {
 
     const myRef = useRef(null)
+    const textAreaRef = useRef(null)
 
    const executeScroll = () => myRef.current.scrollIntoView()    
     
@@ -76,6 +77,7 @@ function Index(props) {
         editTaskId.id = taskId;
         setEditTaskId({...editTaskId});
         executeScroll();
+       
     }
   
     // Submitting user task changes.
@@ -131,7 +133,7 @@ function Index(props) {
             
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
-                <textarea placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
+                <textarea  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
                 <span ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></span>
             </div>
             {/* Edit Card */}
@@ -139,7 +141,7 @@ function Index(props) {
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
                                {editTaskValue}
                  </p>
-                <textarea className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <textarea ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
                 <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
             </div>
             {/* Add Card Button */}
