@@ -118,6 +118,9 @@
   cursor: pointer;
   align-self: center;
 }
+.taskEditBtn:disabled {
+  cursor: default;
+}
 
 .taskWrapper:hover {
   .taskEditBtn {

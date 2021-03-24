@@ -99,7 +99,6 @@ function Index(props) {
 
     // Create Tasks JSX
     let renderTasks = ()=>{
-
         return (props.dataState.columns['todo'].taskIds).map((taskId,index)=>{
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
@@ -113,7 +112,7 @@ function Index(props) {
                             <p style ={{whiteSpace: "pre-line"}}  className={styles.task} index={index} >
                                 {props.dataState.tasks[taskId].content}
                             </p>
-                            <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={styles.taskEditBtn}>
+                            <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={cx(styles.taskEditBtn)} disabled = {editCardState ? true: false}>
                                   <BiPencil />
                             </button>
                      </div>
