@@ -3,7 +3,7 @@ import { format} from 'date-fns'
 
 export default async function overDueMail (taskContent,taskDate,taskListType) {
     console.log("Sending over due Email !!!!")
-    let  dateString = format(new Date(taskDate), '	h:m a do LLLL YYY')
+    let  dateString = format(new Date(taskDate), '	h:mm a do LLLL YYY')
   
     const message =   `Your Task '${taskContent}' was supposed to be completed by ${dateString}. \n Kindly Change the Due Date or Remove it from your ${taskListType} list.`;
   

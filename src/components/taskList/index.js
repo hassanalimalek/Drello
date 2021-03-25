@@ -100,7 +100,7 @@ function Index(props) {
     let renderTasks = ()=>{
         return (props.dataState.columns[props.type].taskIds).map((taskId,index)=>{
             let  dateTimeStamp = props.dataState.tasks[taskId].date
-            let  dateString = format(new Date(dateTimeStamp), '	h:m a do LLLL YYY')
+            let  dateString = format(new Date(dateTimeStamp), '	h:mm a do LLLL YYY')
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
                  {(provided)=>(
