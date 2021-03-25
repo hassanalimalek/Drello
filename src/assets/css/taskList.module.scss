@@ -1,6 +1,6 @@
 // Task List
 .taskList {
-  min-width: 290px;
+  width: 320px;
   min-height: 25px;
   background-color: #ebecf0;
   margin-right: 1.25rem;
@@ -13,7 +13,7 @@
 }
 
 .droppableSection {
-  min-height: 30px;
+  min-height: 20px;
 }
 
 .addNewCardBtn {
@@ -52,7 +52,6 @@
 
 .cardTextArea {
   width: 100%;
-  // border: none;
   margin-bottom: 0.5rem;
   resize: vertical;
   max-height: 160px;
@@ -97,10 +96,9 @@
   font-size: 1rem;
   padding: 0.5rem;
   white-space: pre-line;
-  width: 250px;
+  width: 100%;
 }
 .taskEdit {
-  width: 100%;
   margin-bottom: 0.75rem;
   border: 1px solid #111;
 }
@@ -121,11 +119,38 @@
 .taskEditBtn:disabled {
   cursor: default;
 }
+.dateElementWrapper {
+  text-align: center;
+  margin: 0.4rem;
+}
+.boldTxt {
+  margin-bottom: 0.5rem;
+  font-weight: 400;
+  background-color: #111;
+  color: #fff;
+  display: inline-block;
+  border: none;
+  letter-spacing: 0.2px;
+  padding: 0.3rem;
+  border-radius: 8px;
+}
+.taskDate {
+  padding: 0.2rem;
+  font-weight: 400;
+  margin-bottom: 0.2rem;
+  color: #111;
+  font-size: 1.1rem;
+  background-color: #d8d8da;
+  display: none;
+  text-align: center;
+}
 
-.taskWrapper:hover {
+.taskContainer:hover {
   .taskEditBtn {
     visibility: visible;
-    background-color: rgb(230, 228, 228);
+  }
+  .taskDate {
+    display: block;
   }
 }
 

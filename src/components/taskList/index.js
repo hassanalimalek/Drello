@@ -2,16 +2,23 @@ import React from 'react'
 import { useState,useRef } from 'react'
 import uuid from 'react-uuid'
 import cx from 'classnames';
-import {BiPencil} from 'react-icons/bi';
 import styles from '../../assets/css/taskList.module.scss'
+
+// React icons
+import {BiPencil} from 'react-icons/bi';
+// React Date&Time Pickered
+import DateTimePicker from 'react-datetime-picker';
 // React DND
 import {Droppable,Draggable} from 'react-beautiful-dnd'
 // React Notify
 import Notifications, {notify} from 'react-notify-toast';
+import { format} from 'date-fns'
+
 
 function Index(props) {
 
     const myRef = useRef(null)
+    
     const executeScroll = () => myRef.current.scrollIntoView({ behavior: 'smooth' })
     // Task Cards States
     let [inputCardState,setInputCardState] = useState(false);
@@ -22,12 +29,13 @@ function Index(props) {
     let [editTaskId,setEditTaskId] = useState({id:''});
     let [editTaskValue,setEditTaskValue] = useState("");
     let [editTaskCardValue,setEditTaskCardValue] = useState("");
+    // Date Value
+    const [dateValue, setDateValue] = useState(new Date());
 
-
-
-    // Cards Hide and Show.
+    // Cards & Buttons Hide and Show.
     let showAddCard = ()=>{
         hideAddCardBtn();
+        setDateValue(new Date())
         setEditCardState(false);
         setInputCardState(true);
     }
@@ -50,12 +58,12 @@ function Index(props) {
         setAddCardBtnState(false);
     }
     
-    
     // Adding Task to the main board.js State.
     let addTask = ()=>{
         if(taskValue.length){
             let key = uuid();
-            props.addTask(key,taskValue,props.type)
+            let dateAdded = dateValue.getTime();
+            props.addTask(key,taskValue,props.type,dateAdded)
             hideAddCard();
             hideEditCard();
             setTaskValue("");
@@ -67,7 +75,7 @@ function Index(props) {
       
     }
 
-    // Executed upon edit btn click.
+    // Executed upon Edit btn click.
     let editTask= (taskId)=>{
         executeScroll();
         hideAddCard();
@@ -76,36 +84,45 @@ function Index(props) {
         setEditTaskCardValue(editTaskCardValue)
         setEditTaskId({...editTaskId});
         setEditTaskValue(props.dataState.tasks[taskId].content);
+        setDateValue(new Date(props.dataState.tasks[taskId].date));
         showEditCard();
     }
   
-    // Submitting user task changes.
+    // Submitting User task changes.
     let submitChanges = (e)=>{
-        props.updateTask(editTaskId.id,editTaskValue,props.type);
+        props.updateTask(editTaskId.id,editTaskValue,dateValue);
         hideEditCard();
         setAddCardBtnState(true);
     }
-
+    
 
     // Create Tasks JSX
     let renderTasks = ()=>{
         return (props.dataState.columns[props.type].taskIds).map((taskId,index)=>{
+            let  dateTimeStamp = props.dataState.tasks[taskId].date
+            let  dateString = format(new Date(dateTimeStamp), '	h:m a do LLLL YYY')
             return (
                 <Draggable key={taskId}  draggableId = {taskId} index ={index} >
                  {(provided)=>(
-                      <div
+                    <div
                       {...provided.draggableProps}
                       {...provided.dragHandleProps}
                       ref={provided.innerRef}
-                      className={styles.taskWrapper}
-                      >     
+                      className={styles.taskContainer}
+                      > 
+                        <div
+                        className={styles.taskWrapper}>
                             <p style ={{whiteSpace: "pre-line"}}  className={styles.task} index={index} >
-                                {props.dataState.tasks[taskId].content}
+                            {props.dataState.tasks[taskId].content}
                             </p>
                             <button id={taskId} onClick={(e)=>{editTask(taskId)}} className={cx(styles.taskEditBtn)} disabled = {editCardState ? true: false}>
-                                  <BiPencil />
-                            </button>
-                     </div>
+                                <BiPencil />
+                            </button> 
+                        </div>
+                        <div className={cx(styles.taskDate)}>
+                            Due Date: {dateString}
+                        </div>
+                    </div>
                 )}
                 </Draggable>
              )
@@ -130,16 +147,33 @@ function Index(props) {
             
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
-                <textarea ref={input => input && input.focus()}  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
-                <span ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></span>
+                <h4  className={styles.boldTxt}>Task Text</h4>
+                <textarea  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
+                <h4 className={styles.boldTxt}>Task Due Date</h4>
+                <div className={styles.dateElementWrapper}>
+                    <DateTimePicker
+                        onChange={(value) => setDateValue(value)}
+                        value={dateValue}
+                    />
+                </div>
+                <div ><button className={styles.addCardBtn} onClick={addTask}>Add Card</button> <button className={styles.hideCardBtn} onClick={hideAddCard}>X</button></div>
             </div>
             {/* Edit Card */}
             <div className={cx(editCardState ? styles.inputCardShow : styles.inputCardHide,styles.editCardContainer)}>
+                 <h4 className={styles.boldTxt}>Current Task Text</h4>
                  <p style ={{whiteSpace: "pre-line"}}  className={styles.taskEdit}>
                                {editTaskCardValue}
                  </p>
-                <textarea  ref={input => input && input.focus()}  className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
-                <span><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></span>
+                <textarea className={styles.cardTextArea} value={editTaskValue} type="text" onChange={(e)=>{setEditTaskValue(e.target.value);}}/>
+                <h4 className={styles.boldTxt}>Current Task Due Date</h4>
+                <div className={styles.dateElementWrapper}>
+                    <DateTimePicker
+                        onChange={(value) => setDateValue(value)}
+                        value={dateValue}
+                    />
+                </div>
+               
+                <div><button className={styles.saveCardBtn} onClick={submitChanges}>Save</button><button onClick={hideEditCard} className={styles.hideCardBtn}> X</button></div>
             </div>
             {/* Add Card Button */}
             <button  className={cx(addCardBtnState? styles.inputCardShow : styles.inputCardHide,styles.addNewCardBtn)} onClick={showAddCard} > + Add a New Card</button>

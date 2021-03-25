@@ -5,34 +5,64 @@ import styles from '../../assets/css/board.module.scss'
 import initialData from '../intial-data';
 // React DnD
 import { DragDropContext } from 'react-beautiful-dnd';
+// Email Service
+import overDueMail from '../../services/emailService'
 
 
 
 function Index() {
 
     let [dataState,setDataState] = useState(initialData);
+    let [initialDataState,setInitialDataState] = useState();
 
+     // Task OverDue Check and Sending Email
+     let taskCheck = (taskId,taskListType)=>{
+        if(taskListType !== 'done'){
+            let currDate = (new Date()).getTime();;
+            let addDateStamp = (new Date(dataState.tasks[taskId].date)).getTime();
+            if(addDateStamp<currDate){
+                let taskContent = dataState.tasks[taskId].content;
+                let taskDate = dataState.tasks[taskId].date;
+                overDueMail(taskContent,taskDate,taskListType);
+            }
+        }
+    }
+     // InitialDateState State for OverDue Tasks Check (To be done Once upon App re-run)
+    useEffect(() =>{    
+        dataState.columns['todo'].taskIds.map((taskId)=>{
+            taskCheck(taskId,'todo')
+            return null;
+        })
+        dataState.columns['doing'].taskIds.map((taskId)=>{
+            taskCheck(taskId,'doing')
+            return null;
+        })
+    },[initialDataState]) // eslint-disable-line
+
+    // Getting Inital Data from local Storage
     useEffect(() =>{
         let tasks = localStorage.getItem('tasks');
         if(tasks){
             setDataState(JSON.parse(tasks));
+            setInitialDataState(JSON.parse(tasks))
         }
     },[])
 
+    // Storing Updated Data State in localStorage
     useEffect(() =>{
         localStorage.setItem('tasks',JSON.stringify(dataState))
     },[dataState])
     
     
     // Adding New Task
-    let addTask = (key,task,listType)=>{
-        dataState.tasks[key] = {id:key,content:task}
+    let addTask = (key,task,listType,dateAdded)=>{
+        dataState.tasks[key] = {id:key,content:task,date:dateAdded}
         dataState.tasks[listType] =dataState.columns[listType].taskIds.push(key);
         setDataState({...dataState})
     }
     // Updating Task
-    let updateTask = (taskId,newTaskVal,listType)=>{
-        dataState.tasks[taskId] = {id:taskId,content:newTaskVal};
+    let updateTask = (taskId,newTaskVal,newDateAdded) => {
+        dataState.tasks[taskId] = {id:taskId,content:newTaskVal,date:newDateAdded};
         setDataState({...dataState})
     }
 
@@ -126,8 +156,6 @@ function Index() {
                         <TaskList  type="done"  dataState = {dataState} addTask={addTask} updateTask={updateTask}/>
                 </div>
             </DragDropContext>
-         
-
         </div>
     )
 }
