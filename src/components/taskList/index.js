@@ -148,7 +148,7 @@ function Index(props) {
             {/* Input Card */}
             <div className={inputCardState ? styles.inputCardShow : styles.inputCardHide}>
                 <h4  className={styles.boldTxt}>Task Text</h4>
-                <textarea  placeholder="Enter a title for this card..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
+                <textarea  placeholder="Enter Task Details..." className={styles.cardTextArea} value={taskValue} onChange={(e)=>{setTaskValue("");setTaskValue(e.target.value)}} type="text"></textarea><br/>
                 <h4 className={styles.boldTxt}>Task Due Date</h4>
                 <div className={styles.dateElementWrapper}>
                     <DateTimePicker
